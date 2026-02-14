@@ -15,3 +15,8 @@ build
 .idea
 *.swp
 *.swo
+venv/
+env/
+*.zip
+*.MWX
+nul

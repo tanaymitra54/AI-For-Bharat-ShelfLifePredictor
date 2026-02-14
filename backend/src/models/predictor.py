@@ -73,8 +73,9 @@ class ShelfLifePredictor:
         grid_search.fit(X_train, y_train)
         self.model = grid_search.best_estimator_
         self.is_trained = True
+        self.feature_importance = dict(zip(X_train.columns, self.model.feature_importances_))
         self.best_params = grid_search.best_params_
-
+        
         return self.best_params
 
     def get_feature_importance(self, top_n=10):

@@ -88,6 +88,11 @@ class FeatureEngineer:
             0
         )
 
+        X['temp_squared'] = X['temperature'] ** 2
+        X['humidity_squared'] = X['humidity'] ** 2
+        X['temp_humidity_product'] = X['temperature'] * X['humidity']
+        X['storage_days_ratio'] = np.where(base_shelf > 0, X['days_stored'] / base_shelf, 1.0)
+
         X = X.drop(['food_type_decoded', 'storage_type_decoded'], axis=1, errors='ignore')
 
         self.is_fitted = True
@@ -98,5 +103,6 @@ class FeatureEngineer:
             'food_type', 'storage_type', 'temperature', 'humidity', 'days_stored',
             'base_shelf_life', 'temp_deviation', 'humidity_deviation',
             'storage_progress', 'degradation_factor', 'temp_humidity_interaction',
-            'is_extreme_temp', 'is_extreme_humidity', 'days_remaining_ratio'
+            'is_extreme_temp', 'is_extreme_humidity', 'days_remaining_ratio',
+            'temp_squared', 'humidity_squared', 'temp_humidity_product', 'storage_days_ratio'
         ]
