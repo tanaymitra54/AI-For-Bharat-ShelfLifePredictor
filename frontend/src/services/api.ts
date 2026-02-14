@@ -1,71 +1,72 @@
-import axios from 'axios';
+import axios from 'axios'
 
-const API_BASE_URL = '/api';
+const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000'
 
-export interface PredictionInput {
-  food_type: string;
-  temperature: number;
-  humidity: number;
-  storage_type: string;
-  days_stored: number;
+const api = axios.create({
+  baseURL: API_BASE_URL,
+  headers: {
+    'Content-Type': 'application/json',
+  },
+})
+
+export interface PredictionRequest {
+  food_type: string
+  storage_type: string
+  temperature: number
+  humidity: number
+  days_stored: number
 }
 
-export interface PredictionResult {
-  food_type: string;
-  storage_type: string;
-  temperature: number;
-  humidity: number;
-  days_stored: number;
-  predicted_remaining_days: number;
-  raw_prediction: number;
-  safety_classification: 'Safe' | 'Consume Soon' | 'Expired';
-  issues: string[];
-  severity: string;
-  recommendations: string[];
-  feature_importance: Record<string, number>;
+export interface PredictionResponse {
+  predicted_shelf_life: number
+  freshness_score: number
+  risk_level: 'low' | 'medium' | 'high'
+  recommendations: string[]
 }
 
-export const api = {
-  async healthCheck() {
-    const response = await axios.get(`${API_BASE_URL}/health`);
-    return response.data;
-  },
+export interface ChatRequest {
+  message: string
+  context?: string
+}
 
-  async predict(input: PredictionInput): Promise<PredictionResult> {
-    const response = await axios.post(`${API_BASE_URL}/predict`, input);
-    return response.data;
-  },
+export interface ChatResponse {
+  response: string
+  timestamp: string
+}
 
-  async explain(input: PredictionInput) {
-    const response = await axios.post(`${API_BASE_URL}/explain`, input);
-    return response.data;
-  },
+export const predictShelfLife = async (data: PredictionRequest): Promise<PredictionResponse> => {
+  try {
+    const response = await api.post('/api/predict', data)
+    return response.data
+  } catch (error) {
+    console.error('Prediction API error:', error)
+    throw error
+  }
+}
 
-  async getVoiceExplanation(input: PredictionInput): Promise<Blob> {
-    const response = await axios.post(`${API_BASE_URL}/voice/explain`, input, {
-      responseType: 'blob',
-    });
-    return response.data;
-  },
+export const sendChatMessage = async (data: ChatRequest): Promise<ChatResponse> => {
+  try {
+    const response = await api.post('/api/chat', data)
+    return response.data
+  } catch (error) {
+    console.error('Chat API error:', error)
+    throw error
+  }
+}
 
-  async chat(message: string, context?: string) {
-    const response = await axios.post(`${API_BASE_URL}/chat`, {
-      message,
-      context,
-    });
-    return response.data;
-  },
-
-  async getPredictionExplanation(input: PredictionInput) {
-    const response = await axios.post(`${API_BASE_URL}/chat/prediction_explanation`, input);
-    return response.data;
-  },
-
-  async getStorageAdvice(food_type: string, storage_conditions?: Record<string, any>) {
-    const response = await axios.post(`${API_BASE_URL}/chat/storage_advice`, {
-      food_type,
-      storage_conditions,
-    });
-    return response.data;
-  },
-};
+export const getVoiceTranscription = async (audioBlob: Blob): Promise<{ text: string }> => {
+  try {
+    const formData = new FormData()
+    formData.append('audio', audioBlob, 'recording.wav')
+    
+    const response = await api.post('/api/voice/transcribe', formData, {
+      headers: {
+        'Content-Type': 'multipart/form-data',
+      },
+    })
+    return response.data
+  } catch (error) {
+    console.error('Voice transcription error:', error)
+    throw error
+  }
+}

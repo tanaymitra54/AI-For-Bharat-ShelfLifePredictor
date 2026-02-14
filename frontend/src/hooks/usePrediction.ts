@@ -1,33 +1,38 @@
-import { useState } from 'react';
-import { api, PredictionInput, PredictionResult } from '@/services/api';
+import { useState } from 'react'
+import { predictShelfLife, PredictionRequest, PredictionResponse } from '@/services/api'
 
-export function usePrediction() {
-  const [result, setResult] = useState<PredictionResult | null>(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState<string | null>(null);
+export const usePrediction = () => {
+  const [isLoading, setIsLoading] = useState(false)
+  const [error, setError] = useState<string | null>(null)
+  const [result, setResult] = useState<PredictionResponse | null>(null)
 
-  const predict = async (input: PredictionInput) => {
-    setLoading(true);
-    setError(null);
-
+  const predict = async (data: PredictionRequest) => {
+    setIsLoading(true)
+    setError(null)
+    
     try {
-      const data = await api.predict(input);
-      setResult(data);
-      return data;
-    } catch (err: any) {
-      const errorMessage = err.response?.data?.error || 'Failed to get prediction';
-      setError(errorMessage);
-      throw new Error(errorMessage);
+      const response = await predictShelfLife(data)
+      setResult(response)
+      return response
+    } catch (err) {
+      const errorMessage = err instanceof Error ? err.message : 'Prediction failed'
+      setError(errorMessage)
+      throw err
     } finally {
-      setLoading(false);
+      setIsLoading(false)
     }
-  };
+  }
+
+  const reset = () => {
+    setResult(null)
+    setError(null)
+  }
 
   return {
-    result,
-    loading,
-    error,
     predict,
-    setResult,
-  };
+    isLoading,
+    error,
+    result,
+    reset
+  }
 }

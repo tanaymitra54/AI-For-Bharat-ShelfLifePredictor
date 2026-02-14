@@ -1,9 +1,11 @@
-import type { Metadata } from 'next'
+import { Inter } from 'next/font/google'
 import './globals.css'
 
-export const metadata: Metadata = {
-  title: 'ShelfLife AI - Smart Food Safety Predictor',
-  description: 'AI-powered food shelf life prediction with expert recommendations and voice explanations',
+const inter = Inter({ subsets: ['latin'] })
+
+export const metadata = {
+  title: 'ShelfLife AI - AI-powered Food Shelf Life Prediction System',
+  description: 'Predict food shelf life with advanced AI technology',
 }
 
 export default function RootLayout({
@@ -13,7 +15,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className="antialiased">{children}</body>
+      <body className={inter.className}>{children}</body>
     </html>
   )
 }
