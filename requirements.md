@@ -1,7 +1,7 @@
 # Requirements Specification
 
 ## 1. Scope
-This document defines functional and non-functional requirements for the AI Food Shelf Life Predictor web application.
+This document defines functional and non-functional requirements for the AI Food Shelf Life Predictor web application, aligned for AWS AI for Bharat hackathon submission.
 
 ## 2. Stakeholders
 - End users seeking shelf-life guidance.
@@ -19,6 +19,8 @@ This document defines functional and non-functional requirements for the AI Food
 - FR-8: The system should provide voice explanation when ElevenLabs credentials are configured.
 - FR-9: The system should provide chat-based assistance when OpenRouter credentials are configured.
 - FR-10: The frontend must present prediction, voice, and chat interaction tabs.
+- FR-11: The solution must include a demoable Bharat-relevant use case narrative in project documentation.
+- FR-12: The system must provide interpretable output (status, rationale, recommendation) suitable for hackathon judging walkthroughs.
 
 ## 4. Input and Validation Requirements
 - VR-1: `temperature` and `humidity` must be numeric.
@@ -46,6 +48,8 @@ This document defines functional and non-functional requirements for the AI Food
 - NFR-3: Secrets must be managed through environment variables, never hardcoded.
 - NFR-4: The codebase must remain modular (preprocessing, feature engineering, model, rules, services).
 - NFR-5: Frontend must support current desktop and mobile browsers commonly used for demos.
+- NFR-6: The project should be deployable on AWS services suitable for hackathon demonstration.
+- NFR-7: The codebase and docs should be structured for quick evaluator onboarding (under 15 minutes).
 
 ## 8. Observability and Error Handling
 - OR-1: Backend should log request failures with enough detail for debugging.
@@ -58,8 +62,19 @@ This document defines functional and non-functional requirements for the AI Food
 - AC-3: `GET /health` confirms service readiness.
 - AC-4: Frontend can trigger prediction and render results without page reload.
 - AC-5: If voice/chat keys are configured, corresponding endpoints return successful responses.
+- AC-6: Documentation includes architecture summary, setup steps, API endpoint list, and demo flow.
+- AC-7: A hackathon reviewer can run the app locally and complete one prediction scenario end-to-end.
 
 ## 10. Constraints and Assumptions
 - The system provides guidance, not official food safety certification.
 - Accuracy depends on training dataset quality and category coverage.
 - Voice/chat features depend on third-party API availability and valid credentials.
+
+## 11. AWS AI For Bharat Hackathon Requirements Mapping
+- HR-1 (Innovation): Use AI/ML as the core decision mechanism rather than static rule-only logic.
+- HR-2 (Impact): Focus on practical Bharat context where food storage guidance can reduce waste.
+- HR-3 (Feasibility): Provide a runnable MVP with clear setup and stable core path.
+- HR-4 (Explainability): Return human-readable rationale and safety classification with every prediction.
+- HR-5 (Demo Quality): Provide coherent UI journey with measurable outputs and clear success criteria.
+- HR-6 (Cloud Readiness): Define AWS deployment targets for API, frontend, storage, and monitoring.
+- HR-7 (Documentation): Include architecture, requirements, usage steps, and known limitations.

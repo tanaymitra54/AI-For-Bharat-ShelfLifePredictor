@@ -8,6 +8,7 @@ AI Food Shelf Life Predictor is a full-stack system that estimates remaining she
 - Return actionable guidance (status, issues, recommendations), not just a numeric estimate.
 - Expose a clean API for frontend and external integrations.
 - Support explainability through voice and chat interfaces.
+- Align project scope and demo flow with AWS AI for Bharat hackathon expectations.
 
 ## 3. Non-Goals
 - Replacing certified food safety testing.
@@ -71,3 +72,22 @@ AI Food Shelf Life Predictor is a full-stack system that estimates remaining she
 - Backend runs as Python service (Flask) on port `5000`.
 - Frontend runs as Next.js app on port `3000`.
 - Environment variables are configured for optional voice/chat features.
+
+## 12. AWS AI For Bharat Hackathon Alignment
+- Problem fit: Solution addresses practical Bharat-focused food safety and storage guidance for day-to-day usage.
+- AI-first value: Core decisioning is model-driven with rule-based safety interpretation for explainable outcomes.
+- Demo readiness: End-to-end flow is runnable locally with clear user journey (input -> prediction -> explanation).
+- Responsible AI posture:
+  - Safety-first recommendations when uncertain.
+  - Explicit disclaimer that predictions are assistive, not regulatory certification.
+  - Input validation to reduce harmful or misleading outputs.
+- AWS integration path for submission packaging:
+  - Compute/API hosting target: AWS EC2 or AWS Elastic Beanstalk.
+  - Frontend hosting target: AWS Amplify Hosting.
+  - Model artifact/config storage target: Amazon S3.
+  - Observability target: Amazon CloudWatch logs and health alerts.
+- Submission deliverables expected:
+  - Architecture diagram (frontend, API, model, optional external services).
+  - API documentation and sample requests.
+  - Setup instructions and reproducible run steps.
+  - Demo video script showing prediction, voice, and chat flows.
